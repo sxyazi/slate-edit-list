@@ -3,16 +3,16 @@ import { getCurrentItem } from '../utils'
 /**
  * Split a list item at the start of the current range.
  */
-function splitListItem(opts, change) {
-  const { value } = change
+function splitListItem(opts, editor) {
+  const { value } = editor
   const currentItem = getCurrentItem(opts, value)
   if (!currentItem) {
-    return change
+    return editor
   }
 
   const splitOffset = value.startOffset
 
-  return change.splitDescendantsByKey(
+  return editor.splitDescendantsByKey(
     currentItem.key,
     value.startKey,
     splitOffset

@@ -8,38 +8,38 @@ import { getCurrentItem, getItemDepth } from '../utils'
  * Enter in an empty list item should remove it
  * Shift+Enter in a list item should make a new line
  */
-function onEnter(event, change, editor, opts) {
+function onEnter(event, editor, next, opts) {
   // Pressing Shift+Enter
   // should split block normally
   if (event.shiftKey) {
-    return undefined
+    return next()
   }
 
-  const { value } = change
+  const { value } = editor
   const currentItem = getCurrentItem(opts, value)
 
   // Not in a list
   if (!currentItem) {
-    return undefined
+    return next()
   }
 
   event.preventDefault()
 
   // If expanded, delete first.
   if (value.isExpanded) {
-    change.delete()
+    editor.delete()
   }
 
   if (currentItem.isEmpty) {
     // Block is empty, we exit the list
     if (getItemDepth(opts, value) > 1) {
-      return decreaseItemDepth(opts, change)
+      return decreaseItemDepth(opts, editor)
     }
     // Exit list
-    return unwrapList(opts, change)
+    return unwrapList(opts, editor)
   }
   // Split list item
-  return splitListItem(opts, change)
+  return splitListItem(opts, editor)
 }
 
 export default onEnter

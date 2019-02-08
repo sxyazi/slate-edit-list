@@ -6,25 +6,25 @@ import { getCurrentItem } from '../utils'
  * Tab       -> Increase item depth if inside a list item
  * Shift+Tab -> Decrease item depth if inside a list item
  */
-function onTab(event, change, editor, opts) {
-  const { value } = change
+function onTab(event, editor, next, opts) {
+  const { value } = editor
   const { isCollapsed } = value
 
   if (!isCollapsed || !getCurrentItem(opts, value)) {
-    return undefined
+    return next()
   }
 
   // Shift+tab reduce depth
   if (event.shiftKey) {
     event.preventDefault()
 
-    return decreaseItemDepth(opts, change)
+    return decreaseItemDepth(opts, editor)
   }
 
   // Tab increases depth
   event.preventDefault()
 
-  return increaseItemDepth(opts, change)
+  return increaseItemDepth(opts, editor)
 }
 
 export default onTab

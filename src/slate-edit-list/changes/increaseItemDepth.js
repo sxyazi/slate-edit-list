@@ -12,20 +12,20 @@ import {
  * of previous item.
  * For first items in a list, does nothing.
  */
-function increaseItemDepth(opts, change) {
-  const previousItem = getPreviousItem(opts, change.value)
-  const currentItem = getCurrentItem(opts, change.value)
+function increaseItemDepth(opts, editor) {
+  const previousItem = getPreviousItem(opts, editor.value)
+  const currentItem = getCurrentItem(opts, editor.value)
 
   if (!previousItem) {
-    return change
+    return editor
   }
 
   if (!currentItem) {
-    return change
+    return editor
   }
 
   // Move the item in the sublist of previous item
-  return moveAsSubItem(opts, change, currentItem, previousItem.key)
+  return moveAsSubItem(opts, editor, currentItem, previousItem.key)
 }
 
 /**
@@ -34,13 +34,13 @@ function increaseItemDepth(opts, change) {
  */
 function moveAsSubItem(
   opts,
-  change,
+  editor,
   // The list item to add
   item,
   // The key of the destination node
   destKey
 ) {
-  const destination = change.value.document.getDescendant(destKey)
+  const destination = editor.value.document.getDescendant(destKey)
   const lastIndex = destination.nodes.size
   const lastChild = destination.nodes.last()
 
@@ -48,13 +48,13 @@ function moveAsSubItem(
   const existingList = isList(opts, lastChild) ? lastChild : null
 
   if (existingList) {
-    return change.moveNodeByKey(
+    return editor.moveNodeByKey(
       item.key,
       existingList.key,
       existingList.nodes.size // as last item
     )
   }
-  const currentList = getListForItem(opts, change.value, destination)
+  const currentList = getListForItem(opts, editor.value, destination)
   if (!currentList) {
     throw new Error('Destination is not in a list')
   }
@@ -65,11 +65,11 @@ function moveAsSubItem(
     data: currentList.data
   })
 
-  change.insertNodeByKey(destKey, lastIndex, newSublist, {
+  editor.insertNodeByKey(destKey, lastIndex, newSublist, {
     normalize: false
   })
 
-  return change.moveNodeByKey(item.key, newSublist.key, 0)
+  return editor.moveNodeByKey(item.key, newSublist.key, 0)
 }
 
 export default increaseItemDepth
