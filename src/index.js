@@ -1,6 +1,3 @@
-// @flow
-/* global document */
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor } from 'slate-react'
@@ -121,5 +118,4 @@ class Example extends React.Component {
   }
 }
 
-// $FlowFixMe
 ReactDOM.render(<Example />, document.getElementById('example'))

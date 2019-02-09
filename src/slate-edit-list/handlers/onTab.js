@@ -8,7 +8,7 @@ import { getCurrentItem } from '../utils'
  */
 function onTab(event, editor, next, opts) {
   const { value } = editor
-  const { isCollapsed } = value
+  const { isCollapsed } = value.selection
 
   if (!isCollapsed || !getCurrentItem(opts, value)) {
     return next()

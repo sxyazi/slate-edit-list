@@ -26,11 +26,11 @@ function onEnter(event, editor, next, opts) {
   event.preventDefault()
 
   // If expanded, delete first.
-  if (value.isExpanded) {
+  if (value.selection.isExpanded) {
     editor.delete()
   }
 
-  if (currentItem.isEmpty) {
+  if (!editor.isVoid(currentItem) && currentItem.text === '') {
     // Block is empty, we exit the list
     if (getItemDepth(opts, value) > 1) {
       return decreaseItemDepth(opts, editor)

@@ -42,9 +42,8 @@ function wrapInList(opts, change, type, data) {
 function getHighestSelectedBlocks(value) {
   const range = value.selection
   const { document } = value
-
-  const startBlock = document.getClosestBlock(range.startKey)
-  const endBlock = document.getClosestBlock(range.endKey)
+  const startBlock = document.getClosestBlock(range.start.key)
+  const endBlock = document.getClosestBlock(range.end.key)
 
   if (startBlock === endBlock) {
     return List([startBlock])

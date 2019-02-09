@@ -5,7 +5,7 @@ function getCurrentItem(opts, value, block) {
   const { document } = value
 
   if (!block) {
-    if (!value.selection.startKey) return null
+    if (!value.selection.start.key) return null
     block = value.startBlock
   }
 

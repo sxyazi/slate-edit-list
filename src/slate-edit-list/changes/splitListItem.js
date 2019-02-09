@@ -10,12 +10,12 @@ function splitListItem(opts, editor) {
     return editor
   }
 
-  const splitOffset = value.startOffset
+  const { selection } = value
 
   return editor.splitDescendantsByKey(
     currentItem.key,
-    value.startKey,
-    splitOffset
+    selection.start.key,
+    selection.start.offset
   )
 }
 

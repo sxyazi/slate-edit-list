@@ -6,16 +6,16 @@ import { getCurrentItem } from '../utils'
  */
 function onBackspace(event, editor, next, opts) {
   const { value } = editor
-  const { startOffset, selection } = value
+  const { start, isCollapsed, isExpanded } = value.selection
 
   // Only unwrap...
   // ... with a collapsed selection
-  if (selection.isExpanded) {
+  if (isExpanded) {
     return next()
   }
 
   // ... when at the beginning of nodes
-  if (startOffset > 0) {
+  if (start.offset > 0) {
     return next()
   }
   // ... in a list
@@ -24,7 +24,7 @@ function onBackspace(event, editor, next, opts) {
     return next()
   }
   // ... more precisely at the beginning of the current item
-  if (!selection.isAtStartOf(currentItem)) {
+  if (!isCollapsed || !start.isAtStartOfNode(currentItem)) {
     return next()
   }
 

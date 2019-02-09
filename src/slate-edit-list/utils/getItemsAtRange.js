@@ -12,14 +12,14 @@ import getCurrentItem from './getCurrentItem'
 function getItemsAtRange(opts, value, range) {
   range = range || value.selection
 
-  if (!range.startKey) {
+  if (!range.start.key) {
     return List()
   }
 
   const { document } = value
 
-  const startBlock = document.getClosestBlock(range.startKey)
-  const endBlock = document.getClosestBlock(range.endKey)
+  const startBlock = document.getClosestBlock(range.start.key)
+  const endBlock = document.getClosestBlock(range.end.key)
 
   if (startBlock === endBlock) {
     const item = getCurrentItem(opts, value, startBlock)
